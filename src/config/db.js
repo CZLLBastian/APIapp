@@ -6,11 +6,16 @@ dotenv.config();
 
 // Crear la conexión a la base de datos
 const pool = mysql.createPool({
-  host: "localhost",
+  // host: "localhost",
+  // user: "root",
+  // password: "admin",
+  // database: "app",
+  // port: process.env.DB_PORT || 3306
+  host: "turntable.proxy.rlwy.net",
   user: "root",
-  password: "admin",
+  password: "qPziukiFIDeatIShHsOFqOekXznFSetY",
   database: "app",
-  port: process.env.DB_PORT || 3306
+  port: 54981
 });
 
 module.exports = pool.promise();
