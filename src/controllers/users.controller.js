@@ -7,21 +7,25 @@ exports.login = async (req, res) => {
     const user = await userModel.getUserByEmail(email);
 
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     if (user.password !== password) {
-      return res.status(400).json({ error: 'Contraseña incorrecta' });
+      return res.status(400).json({ error: "Contraseña incorrecta" });
     }
 
     const { password: _, password2, ...userData } = user;
 
     res.status(200).json({
-      message: 'Inicio de sesión exitoso',
-      user: userData
+      message: "Inicio de sesión exitoso",
+      user: userData,
     });
-
   } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      return res
+        .status(400)
+        .json({ error: "El correo electrónico ya está registrado" });
+    }
     res.status(500).json({ error: error.message });
   }
 };
