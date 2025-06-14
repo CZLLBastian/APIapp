@@ -1,5 +1,31 @@
 const userModel = require("../models/users.model");
 
+exports.updateUser = async (req, res) => {
+  try {
+    const { id, nombres, apellidos, edad, peso, talla } = req.body;
+
+    const [rows] = await userModel.getById(id);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    const user = {
+      nombres,
+      apellidos,
+      edad,
+      peso,
+      talla
+    };
+
+    await userModel.updateUser(id, user);
+
+    res.json({ message: "Usuario actualizado correctamente" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 exports.changePassword = async (req, res) => {
   try {
     const { id, oldPassword, newPassword } = req.body;

@@ -4,6 +4,20 @@ exports.getAll = () => {
   return db.query("SELECT * FROM users");
 };
 
+exports.updateUser = (id, user) => {
+  const { nombres, apellidos, edad, peso, talla } = user;
+
+  const sql = `
+    UPDATE users 
+    SET nombres = ?, apellidos = ?, edad = ?, peso = ?, talla = ?
+    WHERE id = ?
+  `;
+
+  const values = [nombres, apellidos, edad, peso, talla, id];
+
+  return db.query(sql, values);
+};
+
 exports.getById = (id) => {
   const sql = "SELECT * FROM users WHERE id = ?";
   return db.query(sql, [id]);
