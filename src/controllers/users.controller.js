@@ -1,5 +1,31 @@
 const userModel = require("../models/users.model");
 
+exports.changePassword = async (req, res) => {
+  try {
+    const { id, oldPassword, newPassword } = req.body;
+
+    // 1. Buscar usuario por ID
+    const [rows] = await userModel.getById(id);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    const user = rows[0];
+
+    if (user.password !== oldPassword) {
+      return res.status(401).json({ error: "Contraseña actual incorrecta" });
+    }
+
+    await userModel.updatePassword(id, newPassword);
+
+    res.json({ message: "Contraseña actualizada correctamente" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
