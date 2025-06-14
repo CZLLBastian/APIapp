@@ -1,7 +1,8 @@
 const db = require("../config/db");
 
-exports.getAll = () => {
-  return db.query("SELECT * FROM historico");
+exports.getAll = (idusuario) => {
+  const sql = "SELECT * FROM historico WHERE idusuario = ?";
+  return db.query(sql, [idusuario]);
 };
 
 

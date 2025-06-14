@@ -2,7 +2,10 @@ const historialModel = require("../models/historial.model.js");
 
 exports.getAllHistorial = async (req, res) => {
   try {
-    const [historico] = await historialModel.getAll();
+    const { idusuario } = req.params;
+
+    const [historico] = await historialModel.getAll(idusuario);
+
     res.json(historico);
   } catch (err) {
     res.status(500).json({ error: err.message });
